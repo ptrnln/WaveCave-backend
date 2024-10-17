@@ -1,6 +1,17 @@
 class ApplicationController < ActionController::API
-    # wrap_parameters include: [:credential, :password]
-    # include ActionController::RequestForgeryProtection
+
+    include ActionController::RequestForgeryProtection
+
+    puts "test"
+
+    if Rails.env.development?
+        logger.debug "test"
+        puts "test"
+        rescue_from ActionController::InvalidAuthenticityToken,
+            with: :invalid_authenticity_token
+        protect_from_forgery with: :exception
+        before_action :attach_authenticity_token
+    end
 
     rescue_from StandardError, with: :unhandled_error
     # rescue_from ActionController::InvalidAuthenticityToken,
@@ -39,17 +50,17 @@ class ApplicationController < ActionController::API
         params.deep_transform_keys!(&:underscore)
     end
 
-    # def attach_authenticity_token
-    #     headers['X-CSRF-Token'] = masked_authenticity_token(session)
-    #     logger.debug "Attaching CSRF token to response: #{headers['X-CSRF-Token']}"
-    #     logger.debug "Response headers: #{headers.keys.join(", ")}"
-    # end
+    def attach_authenticity_token
+        headers['X-CSRF-Token'] = masked_authenticity_token(session)
+        # logger.debug "Attaching CSRF token to response: #{headers['X-CSRF-Token']}"
+        # logger.debug "Response headers: #{headers.keys.join(", ")}"
+    end
 
-    # def invalid_authenticity_token
-    #     logger.debug "Invalid X-CSRF-Token: #{request.headers['X-CSRF-Token']}"
-    #     render json: { message: 'Invalid authenticity token' }, 
-    #       status: :unprocessable_entity
-    # end
+    def invalid_authenticity_token
+        # logger.debug "Invalid X-CSRF-Token: #{request.headers['X-CSRF-Token']}"
+        render json: { message: 'Invalid authenticity token' }, 
+          status: :unprocessable_entity
+    end
       
     def unhandled_error(error)
         if request.accepts.first.html?
@@ -57,7 +68,7 @@ class ApplicationController < ActionController::API
         else
             @message = "#{error.class} - #{error.message}"
             @stack = Rails::BacktraceCleaner.new.clean(error.backtrace)
-            render 'api/errors/internal_server_error', status: :internal_server_error
+            render 'errors/internal_server_error', status: :internal_server_error
         
             logger.error "\n#{@message}:\n\t#{@stack.join("\n\t")}\n"
         end
