@@ -14,8 +14,8 @@ Rails.application.routes.draw do
         resources :playlists
         # resources :playlist_tracks, only: [ :index, :show, :create, :destroy]
       end
-      get '*path', to: redirect("/")
     end
+    get '*path', to: redirect("/")
   else 
     defaults format: :json do
       get "users/@:username/tracks/:title" => "tracks#show", title: /[^\/]+/

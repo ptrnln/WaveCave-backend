@@ -19,7 +19,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
         credentials: true
     else
       origins "*"
-      resource "*", headers: :any, methods: [:get, :post, :patch, :put, :delete]
+      resource "*", headers: :any, methods: [:get, :options, :post, :patch, :put, :delete]
     end
   end
 end
