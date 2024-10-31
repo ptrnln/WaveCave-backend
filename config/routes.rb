@@ -12,7 +12,7 @@ Rails.application.routes.draw do
         resource :session, only: [ :show, :create, :destroy ]
         resources :tracks
         resources :playlists
-        # resources :playlist_tracks, only: [ :index, :show, :create, :destroy]
+
       end
     end
     get '*path', to: redirect("/")
@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       resource :session, only: [ :show, :create, :destroy ]
       resources :tracks
       resources :playlists
-      # resources :playlist_tracks, only: [ :index, :show, :create, :destroy]
+
       
     end
     get '*path', to: redirect("/wavecave") 
