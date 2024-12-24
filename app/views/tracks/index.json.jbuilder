@@ -14,7 +14,7 @@ json.tracks do
             json.photo_url track.photo.attached? ? track.photo.url : nil
             json.source_url track.source.url
             json.source_name track.source.filename 
-            json.partial! 'users/usert', user: track.artist
+            json.partial! 'users/user', user: track.artist
         end
     end 
 end
