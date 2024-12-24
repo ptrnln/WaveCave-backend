@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         resource :session, only: [ :show, :create, :destroy ]
         resources :tracks
         resources :playlists
+        resources :playlist_tracks, only: [ :create ]
 
       end
     end

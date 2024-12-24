@@ -1,13 +1,13 @@
 class PlaylistsController < ApplicationController
 
     def index 
-        @playlists = Playlist.all
+        @playlists = Playlist.includes(:tracks).all
 
         render :index
     end
 
     def show
-        @playlist = Playlist.find(params[:id]);
+        @playlist = Playlist.includes(:tracks).find(params[:id]);
         
         render :show
     end
@@ -24,7 +24,7 @@ class PlaylistsController < ApplicationController
     end
 
     def update
-        @playlist = Playlist.find(params[:id])
+        @playlist = Playlist.includes(:tracks).find(params[:id])
 
         if @playlist.update(playlist_params)
             render :show
