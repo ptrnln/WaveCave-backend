@@ -13,7 +13,8 @@ class PlaylistsController < ApplicationController
     end
 
     def create
-        @playlist = Playlist.new(playlist_params)
+        @playlist = Playlist.new(playlist_params.except(:photo))
+        @playlist.photo.attach(playlist_params[:photo])
 
         if @playlist.save
             render :show
@@ -41,7 +42,7 @@ class PlaylistsController < ApplicationController
     private
 
     def playlist_params
-        params.require(:playlist).permit(:publisher_id, :title, :description)
+        params.require(:playlist).permit(:publisher_id, :title, :description, :photo)
     end
 
 end
