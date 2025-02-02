@@ -46,5 +46,4 @@ class PlaylistTracksController < ApplicationController
     def playlist_track_params
         params.require(:playlist_track).permit(:track_id, :playlist_id)
     end
-    
 end
