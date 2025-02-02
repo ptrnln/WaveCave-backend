@@ -42,4 +42,5 @@ module WaveCave
       # domain: 'ph4se.dev'
     config.api_only = true
   end
+  
 end
