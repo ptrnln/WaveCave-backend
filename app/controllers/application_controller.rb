@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-    # wrap_parameters include: [:credential, :password]
+    wrap_parameters include: [:credential, :password]
     # include ActionController::RequestForgeryProtection
 
     rescue_from StandardError, with: :unhandled_error

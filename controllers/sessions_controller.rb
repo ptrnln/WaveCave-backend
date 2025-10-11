@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
-    # before_action :set_headers
-    # wrap_parameters include: ['credential', 'password']
+    before_action :set_headers
+    wrap_parameters include: ['credential', 'password']
 
     def show
         if current_user
@@ -26,13 +26,13 @@ class SessionsController < ApplicationController
 
         @user = User.find_by_credentials(session_params[:credential], session_params[:password])
         
-        errors = { credential: [], password: [], overall: [] }
+        errors = { credential: [], password: [], general: [] }
 
         if @user
             login!(@user)
             render 'users/show'
         else
-            errors[:overall].push("Invalid credentials/password");
+            errors[:general].push("Invalid credentials/password");
             render json: { errors: errors }, status: :unauthorized
         end
     end
@@ -49,8 +49,8 @@ class SessionsController < ApplicationController
         params.permit(:credential, :password)
     end
 
-    # def set_headers
-    #     logger.debug "Setting origin header"
-    #     headers['Access-Control-Allow-Origin'] = "https://ph4se.dev"
-    # end
+    def set_headers
+        logger.debug "Setting origin header"
+        headers['Access-Control-Allow-Origin'] = "https://ph4se.dev"
+    end
 end

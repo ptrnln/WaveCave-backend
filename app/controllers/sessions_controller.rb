@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
     # before_action :set_headers
-    # wrap_parameters include: ['credential', 'password']
+    wrap_parameters include: ['credential', 'password']
 
     def show
         if current_user

@@ -37,10 +37,9 @@ module WaveCave
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore,
       key: '_wave_cave_session',
-      same_site: :lax, 
-      secure: Rails.env.production?
-      # domain: 'ph4se.dev'
+      same_site: Rails.env.production? ? :None : :Lax,   # :None for cross-origin in prod
+      secure: Rails.env.production?,                     # must be true for :None in prod
+      httponly: true                                     # extra security
     config.api_only = true
   end
-  
 end
