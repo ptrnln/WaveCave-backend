@@ -14,7 +14,6 @@ Rails.application.routes.draw do
         resources :tracks
         resources :playlists
         resources :playlist_tracks, only: [ :create ]
-
       end
     end
     get '*path', to: redirect("/")
@@ -22,12 +21,11 @@ Rails.application.routes.draw do
     defaults format: :json do
       get "users/@:username/tracks/:title" => "tracks#show", title: /[^\/]+/
       get "users/@:username" => "users#show", username: /[^\/]+/
+      get "csrf/restore" => "csrf#restore"
       resources :users, only: [ :index, :create, :show  ]
       resource :session, only: [ :show, :create, :destroy ]
       resources :tracks
       resources :playlists
-
-      
     end
     get '*path', to: redirect("/wavecave") 
   end

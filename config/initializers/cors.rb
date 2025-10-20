@@ -34,7 +34,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     resource "*",
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head],
-      credentials: true,                      # allow cookies
-      expose: ["X-CSRF-Token", "Set-Cookie"] # allow frontend to read CSRF token if needed
+      credentials: true,                       # allow cookies
+      expose: ["X-CSRF-Token",  "Set-Cookie"]  # allow frontend to read CSRF token if needed
   end
 end

@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 
-    # before_action :set_headers
+    before_action :set_headers
     wrap_parameters include: ['credential', 'password']
 
     def show
@@ -49,8 +49,8 @@ class SessionsController < ApplicationController
         params.permit(:credential, :password)
     end
 
-    # def set_headers
-    #     logger.debug "Setting origin header"
-    #     headers['Access-Control-Allow-Origin'] = "https://ph4se.dev"
-    # end
+    def set_headers
+        logger.debug "Setting origin header"
+        headers['Access-Control-Allow-Origin'] = "https://ph4se.dev"
+    end
 end

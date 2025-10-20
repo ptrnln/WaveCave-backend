@@ -1,4 +1,7 @@
 class Api::SessionsController < ApplicationController
+
+    # before_action :set_headers
+    wrap_parameters include: ['credential', 'password']
     
     def show
         if current_user
@@ -36,5 +39,16 @@ class Api::SessionsController < ApplicationController
         if current_user && logout! 
             render json: { message: 'success' } 
         end
+    end
+
+    private
+
+    def session_params
+        params.permit(:credential, :password)
+    end
+
+    def set_headers
+        logger.debug "Setting origin header"
+        headers['Access-Control-Allow-Origin'] = "https://ph4se.dev"
     end
 end

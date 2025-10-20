@@ -39,17 +39,17 @@ class ApplicationController < ActionController::API
         params.deep_transform_keys!(&:underscore)
     end
 
-    # def attach_authenticity_token
-    #     headers['X-CSRF-Token'] = masked_authenticity_token(session)
+    def attach_authenticity_token
+        headers['X-CSRF-Token'] = masked_authenticity_token(session)
     #     logger.debug "Attaching CSRF token to response: #{headers['X-CSRF-Token']}"
     #     logger.debug "Response headers: #{headers.keys.join(", ")}"
-    # end
+    end
 
-    # def invalid_authenticity_token
-    #     logger.debug "Invalid X-CSRF-Token: #{request.headers['X-CSRF-Token']}"
+    def invalid_authenticity_token
+        logger.debug "Invalid X-CSRF-Token: #{request.headers['X-CSRF-Token']}"
     #     render json: { message: 'Invalid authenticity token' }, 
     #       status: :unprocessable_entity
-    # end
+    end
       
     def unhandled_error(error)
         if request.accepts.first.html?
