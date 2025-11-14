@@ -1,5 +1,4 @@
 class TracksController < ApplicationController
-    # prepend_before_action :require_logged_in_as_owner, only: :require_logged_in
     before_action :require_logged_in_as_owner, only: [ :update, :destroy ]
     before_action :require_logged_in, only: [ :create ]
 
@@ -61,7 +60,8 @@ class TracksController < ApplicationController
 
     def destroy
         Track.destroy(params[:id])
-        render json: { message: 'Track successfully deleted' }
+        render json: { message: 'Track successfully deleted' },
+            status: :ok
     end
 
 # -------------- Track-specific helper methods ------------------

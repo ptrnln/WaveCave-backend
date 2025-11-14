@@ -20,7 +20,7 @@ class Track < ApplicationRecord
 
     belongs_to :artist, class_name: "User", foreign_key: "artist_id"
     has_many :playlist_tracks
-    has_many :playlists, through: :playlist_tracks
+    has_many :playlists, through: :playlist_tracks, dependent: :destroy
 
     has_one_attached :photo
     has_one_attached :source

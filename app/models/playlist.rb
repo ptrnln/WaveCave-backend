@@ -17,4 +17,6 @@ class Playlist < ApplicationRecord
     has_many :playlist_tracks
     has_many :tracks, through: :playlist_tracks
     has_one_attached :photo
+
+    accepts_nested_attributes_for :tracks, reject_if: ->(attributes){ attributes['title'].blank? }, allow_destroy: true
 end
