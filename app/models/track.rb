@@ -38,7 +38,7 @@ class Track < ApplicationRecord
 
     def name_unique_on_artist
         return true if self.artist&.tracks&.none?{ |track| track.title == self.title }
-        self.errors.add(:title, ": '#{self.title}' cannot be used more than once by the same artist")
+        self.errors.add(:title, "cannot be used more than once by the same artist")
         return false
     end
 end

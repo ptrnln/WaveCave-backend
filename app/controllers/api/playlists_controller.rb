@@ -7,9 +7,14 @@ class Api::PlaylistsController < ApplicationController
     end
 
     def show
-        @playlist = Playlist.find(params[:id]);
+        @playlist = Playlist.find_by(id: params[:id]);
         
-        render :show
+        if @playlist 
+            render :show
+        else
+            render json: { message: 'Playlist not found' }, 
+                status: :not_found
+        end
     end
 
     def create

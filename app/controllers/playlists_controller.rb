@@ -9,7 +9,11 @@ class PlaylistsController < ApplicationController
     def show
         @playlist = Playlist.find(params[:id]);
         
-        render :show
+        if @playlist 
+          render :show
+        else
+            render json: { status: 404, error: 'Not Found' }, status: :not_found
+        end
     end
 
     def create

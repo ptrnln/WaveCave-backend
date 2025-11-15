@@ -1,14 +1,14 @@
 class ApplicationController < ActionController::API
     wrap_parameters include: [:credential, :password]
-    # include ActionController::RequestForgeryProtection
+    include ActionController::RequestForgeryProtection
 
     rescue_from StandardError, with: :unhandled_error
-    # rescue_from ActionController::InvalidAuthenticityToken,
-    #    with: :invalid_authenticity_token
+    rescue_from ActionController::InvalidAuthenticityToken,
+       with: :invalid_authenticity_token
     
-    # protect_from_forgery with: :exception
+    protect_from_forgery with: :exception
     before_action :snake_case_params
-    # before_action :attach_authenticity_token
+    before_action :attach_authenticity_token
 
     def current_user
         @current_user ||= User.find_by(session_token: session[:session_token])
@@ -47,8 +47,8 @@ class ApplicationController < ActionController::API
 
     def invalid_authenticity_token
         logger.debug "Invalid X-CSRF-Token: #{request.headers['X-CSRF-Token']}"
-    #     render json: { message: 'Invalid authenticity token' }, 
-    #       status: :unprocessable_entity
+        render json: { message: 'Invalid authenticity token' }, 
+          status: :unprocessable_entity
     end
       
     def unhandled_error(error)
