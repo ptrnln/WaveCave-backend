@@ -62,4 +62,10 @@ class ApplicationController < ActionController::API
             logger.error "\n#{@message}:\n\t#{@stack.join("\n\t")}\n"
         end
     end
+
+    def generate_puid(item)
+      puid = SecureRandom.urlsafe_base64(8)
+
+      if !item.class.find_by(puid: puid) then item.puid = puid end
+    end
 end

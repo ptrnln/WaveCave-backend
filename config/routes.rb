@@ -9,9 +9,10 @@ Rails.application.routes.draw do
       defaults format: :json do
         get "users/@:username/tracks/:title" => "tracks#show", title: /[^\/]+/
         get "users/@:username" => "users#show", username: /[^\/]+/
+        get "tracks/:puid", to: "tracks#show"
         resources :users, only: [ :index, :create, :show  ]
         resource :session, only: [ :show, :create, :destroy ]
-        resources :tracks
+        resources :tracks, only: [ :index, :create ]
         resources :playlists
         resources :playlist_tracks, only: [ :create, :destroy ]
       end
@@ -22,9 +23,10 @@ Rails.application.routes.draw do
       get "users/@:username/tracks/:title" => "tracks#show", title: /[^\/]+/
       get "users/@:username" => "users#show", username: /[^\/]+/
       get "csrf/restore" => "csrf#restore"
+      get "tracks/:puid", to: "tracks#show"
       resources :users, only: [ :index, :create, :show  ]
       resource :session, only: [ :show, :create, :destroy ]
-      resources :tracks
+      resources :tracks, only: [ :index, :create]
       resources :playlists
       resources :playlist_tracks, only: [ :create, :destroy ]
     end

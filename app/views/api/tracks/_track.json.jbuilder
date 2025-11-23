@@ -1,6 +1,8 @@
-json.set! track.id do
+json.key_format! ->(key) {key}
+json.set! track.puid do
+    json.key_format! camelize: :lower
     json.extract! track,
-        :id,
+        :puid,
         :title,
         :description,
         :genre,

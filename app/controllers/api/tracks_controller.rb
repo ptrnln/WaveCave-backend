@@ -32,7 +32,9 @@ class Api::TracksController < ApplicationController
     def show
         if params[:title] && params[:username] 
             @user = User.find_by(username: CGI.unescape(params[:username])) 
-            @track = Track.find_by(title: CGI.unescape(params[:title]), artist_id: @user.id)
+            @track = Track.find_by(title: CGI.unescape(params[:title]), artist_id: @user&.id)
+        elsif params[:puid]
+            @track = Track.find_by(puid: params[:puid])
         else
             @track = Track.find(params[:id])
         end
@@ -40,7 +42,7 @@ class Api::TracksController < ApplicationController
         if @track
             render :show
         else
-            render json: { message: 'Track not found' }, 
+            render json: { status: 404, error: 'Not Found' }, 
                 status: :not_found
         end
     end
@@ -49,7 +51,7 @@ class Api::TracksController < ApplicationController
         @track = Track.find(params[:id])
 
         @track.source.attach(track_params[:source]) if track_params[:source]
-        
+        @track.photo.attach(track_params[:photo]) if track_params[:photo]
         
         if @track.update(track_params)
             render :show
@@ -89,4 +91,5 @@ class Api::TracksController < ApplicationController
             :photo
             )
     end
+
 end

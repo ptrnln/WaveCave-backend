@@ -2,6 +2,8 @@ class TracksController < ApplicationController
     before_action :require_logged_in_as_owner, only: [ :update, :destroy ]
     before_action :require_logged_in, only: [ :create ]
 
+    before_create :generate_puid
+
 # ---------------------- Backend Routes ------------------------
 
     def index
@@ -21,7 +23,7 @@ class TracksController < ApplicationController
         
 
         if @track.save 
-            render :show
+            render :show, puid: @track.puid
         else
             render json: { errors: @track.errors.full_messages }, 
                 status: :unprocessable_entity
@@ -86,7 +88,18 @@ class TracksController < ApplicationController
             :file_type, 
             :duration,
             :source,
-            :photo
+            :photo,
+            :puid
             )
+    end
+
+    def generate_puid()
+      puid = SecureRandom.urlsafe_base64(8)
+
+      while self.class.find_by(puid: puid)
+            puid = SecureRandom.urlsafe_base64(8)
+      end 
+
+      self.puid = puid
     end
 end

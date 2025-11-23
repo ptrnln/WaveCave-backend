@@ -28,6 +28,8 @@ class Track < ApplicationRecord
     validate :source_presence
     validate :name_unique_on_artist, on: :create
 
+    before_create :generate_puid
+
     private
 
     def source_presence
@@ -40,5 +42,15 @@ class Track < ApplicationRecord
         return true if self.artist&.tracks&.none?{ |track| track.title == self.title }
         self.errors.add(:title, "cannot be used more than once by the same artist")
         return false
+    end
+
+    def generate_puid()
+      puid = SecureRandom.urlsafe_base64(8)
+
+      while self.class.find_by(puid: puid)
+            puid = SecureRandom.urlsafe_base64(8)
+      end 
+
+      self.puid = puid
     end
 end

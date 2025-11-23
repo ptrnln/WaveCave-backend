@@ -12,7 +12,11 @@ json.set! @playlist.id do
 
     json.tracks do
         @playlist.tracks.each do |track|
-            json.set! track.id do
+
+            json.key_format! ->(key) {key}
+
+            json.set! track.puid do
+                json.key_format! camelize: :lower
                 json.partial! 'api/tracks/track', track: track
             end
         end

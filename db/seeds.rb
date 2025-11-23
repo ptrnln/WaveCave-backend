@@ -18,6 +18,24 @@
 #   "Ghost",
 #   # "Concrete Skies",
 # ]
+# 
+
+require "securerandom"
+require "open-uri"
+
+Track.transaction do
+  Track.all.each do |track|
+    puid = SecureRandom.urlsafe_base64(8)
+
+    track.puid = puid
+
+    while !track.save
+      puid = SecureRandom.urlsafe_base64(8)
+
+      track.puid = puid
+    end
+  end
+end
 
 
 # require "open-uri"
